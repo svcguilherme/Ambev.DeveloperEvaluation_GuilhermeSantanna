@@ -1,5 +1,6 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData;
+using Bogus;
 using FluentAssertions;
 using Xunit;
 
@@ -10,27 +11,25 @@ public class PurchaseTestDataTests
     [Fact]
     public void GenerateValidPurchase_ShouldReturnValidPurchase()
     {
-        var purchase = PurchaseTestData.GenerateValidPurchase();
+        var product = ProductTestData.GenerateValidProduct();
 
-        purchase.Should().NotBeNull();
-        purchase.BranchName.Should().NotBeNullOrEmpty();
-        purchase.TotalPurchase.Should().BeGreaterThan(0);
-        purchase.PurchaseDate.Should().NotBe(default);
+        product.Should().NotBeNull();
+        product.ProductName.Should().NotBeNullOrEmpty();
+        product.Price.Should().BeGreaterThan(0);
+        product.CodeBar.Should().NotBeNullOrEmpty();
     }
 
     [Fact]
     public void GeneratePrice_ShouldReturnPositiveDouble()
     {
-        var price = PurchaseTestData.GeneratePrice();
+        var price = ProductTestData.GeneratePrice();
 
         price.Should().BeGreaterThan(0);
     }
 
     [Fact]
-    public void GenerateQuantity_ShouldReturnPositiveLong()
+    public void GenerateCodeBar_ShouldBeValid()
     {
-        var quantity = PurchaseTestData.GenerateQuantity();
-
-        quantity.Should().BeGreaterThan(0);
+        var name = ProductTestData.GenerateCodebar();
     }
 }

@@ -29,10 +29,19 @@ public static class ProductTestData
     /// <summary>
     /// Generates a valid product price as a string.
     /// </summary>
-    public static string GeneratePrice()
+    public static decimal GeneratePrice()
     {
-        return new Faker().Commerce.Price();
+        return new Faker().PickRandom(10, 20);
     }
+
+    /// <summary>
+    /// Generates a valid product price as a string.
+    /// </summary>
+    public static string GenerateCodebar()
+    {
+        return new Faker().Commerce.Ean13();
+    }
+
 
     /// <summary>
     /// Generates a valid description for a product.
