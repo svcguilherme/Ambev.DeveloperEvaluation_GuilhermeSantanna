@@ -1,0 +1,33 @@
+# 📦 Makefile PRO
+
+up:
+	docker-compose up --build -d
+
+down:
+	docker-compose down -v
+
+restart: down up
+
+logs:
+	docker-compose logs -f --tail=100
+
+recreate-db:
+	docker-compose down -v
+	docker volume prune -f
+	docker-compose up --build -d
+
+ps:
+	docker-compose ps
+
+migrate:
+	docker-compose exec ambev_developer_evaluation_webapi dotnet ef database update --context DefaultContext
+
+bash-db:
+	docker exec -it ambev_developer_evaluation_database bash
+
+bash-api:
+	docker exec -it ambev_developer_evaluation_webapi sh
+
+prune:
+	docker system prune -af --volumes
+

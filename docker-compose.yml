@@ -2,14 +2,16 @@ version: '3.8'
 
 services:
   ambev.developerevaluation.database:
-    image: postgres:13
+    image: postgres:latest
     container_name: ambev_developer_evaluation_database
     environment:
       POSTGRES_DB: developer_evaluation
       POSTGRES_USER: developer
       POSTGRES_PASSWORD: ev@luAt10n
+    volumes:
+        - ./containers/ambev:/var/lib/postgresql/data
     ports:
-      - "5432"
+      - "5432:5432"
 
   ambev.developerevaluation.nosql:
     image: mongo:8.0
@@ -47,3 +49,4 @@ services:
       - ambev.developerevaluation.nosql
       - ambev.developerevaluation.cache
     entrypoint: ["/bin/sh", "-c", "./wait-for-it.sh ambev.developerevaluation.database:5432 -- ./wait-for-it.sh ambev.developerevaluation.cache:6379 -- ./wait-for-it.sh ambev.developerevaluation.nosql:27017 -- dotnet ef database update --no-build --context ApplicationDbContext --project src/Ambev.DeveloperEvaluation.WebApi/Ambev.DeveloperEvaluation.WebApi.csproj && dotnet Ambev.DeveloperEvaluation.WebApi.dll"]
+

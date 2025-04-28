@@ -31,8 +31,7 @@ public class Program
 
             builder.Services.AddDbContext<DefaultContext>(options =>
                 options.UseNpgsql(
-                    builder.Configuration.GetConnectionString("DefaultConnection"),
-                    b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.ORM")
+                    builder.Configuration.GetConnectionString("DefaultConnection")
                 )
             );
 
@@ -55,17 +54,19 @@ public class Program
             var app = builder.Build();
             app.UseMiddleware<ValidationExceptionMiddleware>();
 
-            using (var scope = app.Services.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetRequiredService<DefaultContext>();
-                dbContext.Database.Migrate();
-            }
-
-
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+
+                //using (var scope = app.Services.CreateScope())
+                //{
+                //    var dbContext = scope.ServiceProvider.GetRequiredService<DefaultContext>();
+                //    if (dbContext.Database.GetPendingMigrations().Any())
+                //    {
+                //        dbContext.Database.Migrate();
+                //    }
+                //}
             }
 
             app.UseHttpsRedirection();
